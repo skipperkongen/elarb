@@ -5,7 +5,7 @@ Køb *kWh* billigt eller producer dem selv (e.g. med solceller). Gem dem på et 
 - [Forretnings modeller](#Forretnings-modeller)
 - [Fysisk implementering](#Fysisk-implementering)
 - [Datakilder](#Datakiler)
-- [Analyser](#Analyser) (e.g. flaskehalse, volatilitet og forecasts)
+- [Analyser](#Analyser) (e.g. [flaskehalse](#Flaskehalse-i-transmissions-net), volatilitet og forecasts)
 - [Buy-sell policies](#Buy-sell-policies) (e.g. RL)
 - [Intern dokumentation](#Intern-dokumentation)
 - [Ekstern dokumentation](#Ekstern-dokumentation)
@@ -82,7 +82,7 @@ TODO
 
 ## Datakilder
 
-[Energi Data Service](https://www.energidataservice.dk/)Æ
+[Energi Data Service](https://www.energidataservice.dk/):
 - [API guide](https://www.energidataservice.dk/guides/api-guides)
 - [Datasets](https://www.energidataservice.dk/datasets)
 
