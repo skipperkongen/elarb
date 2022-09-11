@@ -5,7 +5,7 @@ Køb *kWh* billigt eller producer dem selv (e.g. med solceller). Gem dem på et 
 - [Forretnings modeller](#Forretnings-modeller)
 - [Fysisk implementering](#Fysisk-implementering)
 - [Datakilder](#Datakiler)
-- [Analyser](#Analyser) (e.g. [flaskehalse](#Flaskehalse-i-transmissions-net), volatilitet og forecasts)
+- [Analyser](#Analyser) (e.g. [flaskehalse](#Flaskehalse-i-transmissions-net), [sæsonvariation](#Sæsonvariation), volatilitet og forecasts)
 - [Buy-sell policies](#Buy-sell-policies) (e.g. RL)
 - [Intern dokumentation](#Intern-dokumentation)
 - [Ekstern dokumentation](#Ekstern-dokumentation)
@@ -82,12 +82,16 @@ TODO
 
 ## Datakilder
 
+### API'er
+
 [Energi Data Service](https://www.energidataservice.dk/):
 - [API guide](https://www.energidataservice.dk/guides/api-guides)
 - [Datasets](https://www.energidataservice.dk/datasets)
 
-Dashboards:
-- [Rå spot-priser per uge (minus moms/afgift)](https://elpris2.wen.dk/)
+### Dashboards
+
+[Kaj Munk Wen](https://wen.dk/):
+- [Rå spot-priser denne uge (minus moms/afgift)](https://elpris2.wen.dk/)
 
 
 ## Analyser
@@ -95,6 +99,10 @@ Dashboards:
 ### Flaskehalse i transmissions-net
 
 Strøm skal transporteres fra udbyder til aftager gennem transmissions-netværket. På grund af netværkseffekter, kan der nemt opstå flaskehalse, hvilket begrænser hvor meget der kan leveres på tværs af geografiske områder. Derfor er det måske bedre at have mange små enheder fordelt geografisk.
+
+### Sæsonvariation
+
+TODO: FFT, sinus-cosinus etc. Hvor kan man få historiske data? EDS? 
 
 ### Volatilitet
 
