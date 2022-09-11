@@ -1,6 +1,6 @@
 # Strøm Arbitrage
 
-> Datakilde: Henrik
+> Datakilder: Henrik, Energi Data Service, 
 
 Køb *kWh* billigt eller producer dem selv (e.g. med solceller). Gem dem på et batteri og sælg dem senere til en højere pris.
 
