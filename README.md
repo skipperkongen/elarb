@@ -1,5 +1,7 @@
 # Strøm Arbitrage
 
+> Datakilde: Henrik
+
 Køb *kWh* billigt eller producer dem selv (e.g. med solceller). Gem dem på et batteri og sælg dem senere til en højere pris.
 
 - [Forretnings modeller](#Forretnings-modeller)
@@ -82,13 +84,13 @@ TODO
 
 ## Datakilder
 
-### API'er
-
 [Energi Data Service](https://www.energidataservice.dk/):
 - [API guide](https://www.energidataservice.dk/guides/api-guides)
 - [Datasets](https://www.energidataservice.dk/datasets)
 
-### Dashboards
+[Electricity maps](https://github.com/electricitymaps/electricitymaps-contrib)
+- [Web app](https://app.electricitymaps.com/map)
+- [Data](???)
 
 [Kaj Munk Wen](https://wen.dk/):
 - [Rå spot-priser denne uge (minus moms/afgift)](https://elpris2.wen.dk/)
@@ -102,7 +104,7 @@ Strøm skal transporteres fra udbyder til aftager gennem transmissions-netværke
 
 ### Sæsonvariation
 
-TODO: FFT, sinus-cosinus etc. Hvor kan man få historiske data? EDS? 
+TODO: FFT, sinus-cosinus etc. Hvor kan man få historiske data? EDS?
 
 ### Volatilitet
 
