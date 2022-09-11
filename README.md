@@ -1,6 +1,9 @@
 # Strøm Arbitrage
 
-> Datakilder: Henrik, Energi Data Service,
+> Datakilder: Henrik, Energi Data Service
+
+Notebooks:
+- [volatilitet](../notebooks/volatilitet.ipynb)
 
 Køb *kWh* billigt eller producer dem selv (e.g. med solceller). Gem dem på et batteri og sælg dem senere til en højere pris.
 
@@ -12,6 +15,25 @@ Køb *kWh* billigt eller producer dem selv (e.g. med solceller). Gem dem på et 
 - [Buy-sell policies](#Buy-sell-policies) (e.g. RL)
 - [Intern dokumentation](#Intern-dokumentation)
 - [Ekstern dokumentation](#Ekstern-dokumentation)
+
+Optimeringsproblemer:
+- Indkøb: maksimer afkast ved køb af assets
+  - Hvilken balance mellem batterier og solceller?
+  - Hvor skal man købe ejendomme?
+- Styring: hvilken policy for at maksimere afkast af assets
+  - hvornår skal man købe og sælge?
+
+Analyser:
+- ROI:
+  - Hvad er ROI per kWh på batteri?
+- Forecasts:
+  - Hvad er min/max spotprisen på fremtidig dato
+  - Hvad er spotprisen i fremtidig time/dato
+- EDA:
+  - Volatilitet, min/max spotpris per dag
+- Netværk:
+  - Visualisering af netværkskapacitet
+  - Hvor meget kan man eksportere per lokalområde?
 
 ## Aftagere
 
