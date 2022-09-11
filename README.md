@@ -1,9 +1,10 @@
 # Strøm Arbitrage
 
-> Datakilder: Henrik, Energi Data Service, 
+> Datakilder: Henrik, Energi Data Service,
 
 Køb *kWh* billigt eller producer dem selv (e.g. med solceller). Gem dem på et batteri og sælg dem senere til en højere pris.
 
+- [Aftagere](#Aftagere)
 - [Forretnings modeller](#Forretnings-modeller)
 - [Fysisk implementering](#Fysisk-implementering)
 - [Datakilder](#Datakiler)
@@ -12,13 +13,15 @@ Køb *kWh* billigt eller producer dem selv (e.g. med solceller). Gem dem på et 
 - [Intern dokumentation](#Intern-dokumentation)
 - [Ekstern dokumentation](#Ekstern-dokumentation)
 
-## Forretnings modeller
-
-### Hvem er køberen?
+## Aftagere
 
 - [Vindstød](https://www.vindstoed.dk/) - [sælg din strøm](https://www.vindstoed.dk/tilmelding-solcelle)
 - [Nettopower](https://www.nettopower.dk/) - [sælg din strøm](https://www.nettopower.dk/el/saelg-din-stroem)
 - [NRGi](https://nrgi.dk/) - [sælg din strøm](https://nrgi.dk/erhverv/vi-tilbyder/stroem/salg-af-solcellestroem/)
+
+
+## Forretnings modeller
+
 
 ### Option 1: bliv registreret som forsyningsselskab.
 
