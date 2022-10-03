@@ -3,6 +3,7 @@
 > Datakilder: Henrik, Energi Data Service
 
 Notebooks:
+- [battery](notebooks/battery.ipynb)
 - [volatilitet](notebooks/volatilitet.ipynb)
 
 Køb *kWh* billigt eller producer dem selv (e.g. med solceller). Gem dem på et batteri og sælg dem senere til en højere pris.
