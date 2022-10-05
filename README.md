@@ -2,7 +2,11 @@
 
 > Datakilder: Henrik, Energi Data Service
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/7wAvBzMc7QI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+[![Explanation of markets]
+(https://img.youtube.com/vi/7wAvBzMc7QI/maxresdefault.jpg)]
+(https://www.youtube.com/watch?v=7wAvBzMc7QI)
+
 
 Notebooks:
 - [battery](notebooks/battery.ipynb)
