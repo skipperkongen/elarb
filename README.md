@@ -5,6 +5,8 @@
 
 [![Explanation of markets](https://img.youtube.com/vi/7wAvBzMc7QI/maxresdefault.jpg)](https://www.youtube.com/watch?v=7wAvBzMc7QI)
 
+(Klik på billedet for at åbne video)
+
 
 Notebooks:
 - [battery](notebooks/battery.ipynb)
