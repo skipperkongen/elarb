@@ -9,6 +9,7 @@
 
 
 Notebooks:
+- [simulator](notebooks/simulator.ipynb)
 - [battery](notebooks/battery.ipynb)
 - [volatilitet](notebooks/volatilitet.ipynb)
 
