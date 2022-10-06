@@ -12,6 +12,7 @@ Notebooks:
 - [simulator](notebooks/simulator.ipynb)
 - [battery](notebooks/battery.ipynb)
 - [volatilitet](notebooks/volatilitet.ipynb)
+- [tyngdebatteri](notebooks/tyngdebatteri.ipynb)
 
 Køb *kWh* billigt eller producer dem selv (e.g. med solceller). Gem dem på et batteri og sælg dem senere til en højere pris.
 
