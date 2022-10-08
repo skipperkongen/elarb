@@ -10,7 +10,7 @@ We will assume that all resources are located all in the same grid region, e.g. 
 
 The problem has the markov property in that the current state only depends on the previous state.
 
-Graph of who can send kWh to who?
+Graph of who can send kWh to who:
 
 ```
            ┌───────┐       
