@@ -14,6 +14,8 @@ The problem has the markov property in that the current state only depends on th
 
 Consult the tables below for variable definitions.
 
+Problem formulation:
+
 $$
 \begin{align*}
 \max \Sigma_{t \in T} & \quad sell_{grid}(t) \cdot price_{grid}(t) \\
