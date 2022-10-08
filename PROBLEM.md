@@ -18,7 +18,7 @@ Consult the tables below for variable definitions.
 
 $$
 \begin{align*}
-\max \Sigma_{t \in T} & \quad sell_{grid}(t) price_{grid}(t) \\
+\max \Sigma_{t \in T} & \quad sell_{grid}(t) \cdot price_{grid}(t) \\
 & \quad - buy_{solar}(t) price_{solar}(t) \\
 & \quad - buy_{grid}(t) price_{grid}(t) \\
 & \quad - buy_{battery}(t) price_{battery}(t)) \\
