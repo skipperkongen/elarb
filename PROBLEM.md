@@ -69,7 +69,9 @@ For all resource types:
 For simplication, you pay a price when you buy from the battery but not when you sell to it.
 
 $$
-\max \Sigma_{t \in T} x_grid(t) p_grid(t) - (y_solar(t) p_solar(t) + y_grid(t) p_grid(t) - y_battery(t) p_battery(t))
+\begin{align}
+\max \Sigma_{t \in T} x_grid(t) p_grid(t) - (y_solar(t) p_solar(t) + y_grid(t) p_grid(t) - y_battery(t) p_battery(t)) \\
 \shortintertext{subject to}
 TODO
+\end{align}
 $$
