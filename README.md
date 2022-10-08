@@ -2,6 +2,8 @@
 
 > Datakilder: Henrik, Energi Data Service
 
+Read the [problem](PROBLEM.md) definition.
+
 ```
 make install
 make test
