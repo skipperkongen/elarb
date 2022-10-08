@@ -101,9 +101,9 @@ We assume that the price is the same regardless of whether you buy or sell. This
 
 |Expression|Description|
 |-|-|
-|x1(t) + x3(t) <= d_grid(t)|the amount to sell to the grid cannot exceed the demand of the grid (theoretical)|
-|x2(t) + x4(t) <= d_battery(t)|the amount to sell to the battery cannot exceed the demand (i.e. capability to charge) of the battery|
-|x1(t) + x2(t) = s_solar(t)|The amount sold to the grid plus the battery cannot exceed the kWh produced by solar panels|
-|x3(t) <= s_battery(t)|the amound to buy from battery cannot exceed the supply of the battery|
-|x4(t) <= s_grid(t)|the amound to buy from grid cannot exceed the supply of the grid|
-|x1(t) + x4(t) <= d_grid(t)|the amound to buy from the solar panel and the grid cannot exceed the demand of the battery|
+|x1(t) + x3(t) ≤ d_grid(t)|the amount to sell to the grid cannot exceed the demand of the grid (theoretical)|
+|x2(t) + x4(t) ≤ d_battery(t)|the amount to sell to the battery cannot exceed the demand (i.e. capability to charge) of the battery|
+|x1(t) + x2(t) ≤ s_solar(t)|The amount sold to the grid plus the battery cannot exceed the kWh produced by solar panels|
+|x3(t) ≤ s_battery(t)|the amound to buy from battery cannot exceed the supply of the battery|
+|x4(t) ≤ s_grid(t)|the amound to buy from grid cannot exceed the supply of the grid|
+|x1(t) + x4(t) ≤ d_grid(t)|the amound to buy from the solar panel and the grid cannot exceed the demand of the battery|
