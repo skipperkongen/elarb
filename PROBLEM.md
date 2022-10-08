@@ -12,8 +12,6 @@ The problem has the markov property in that the current state only depends on th
 
 ## Problem formulation
 
-For simplication, you pay a price when you buy from the battery but not when you sell to it.
-
 Consult the tables below for variable definitions.
 
 $$
@@ -26,6 +24,9 @@ $$
 & TODO \\
 \end{align*}
 $$
+
+Notes:
+- You pay a price only when you buy kWh from the battery, not when you sell kWh to it
 
 
 ## Variables
