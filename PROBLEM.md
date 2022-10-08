@@ -1,5 +1,7 @@
 # Problem definition
 
+> TODO: add battery capacity constraint
+
 There are three types of resources in the problem:
 - Solar panels
 - Battery
