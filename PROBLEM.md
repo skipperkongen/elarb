@@ -89,7 +89,6 @@ $$
 & \quad + y_{grid}(t) p_{grid}(t) \\
 & \quad - y_{battery}(t) p_{battery}(t)) \\
 \text{s.t.} &  \\
-TODO \\
-
+& TODO \\
 \end{align*}
 $$
