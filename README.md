@@ -2,7 +2,7 @@
 
 > Datakilder: Henrik, Energi Data Service
 
-Read the [problem](PROBLEM.md) definition.
+Læs [problemdefinition](PROBLEM.md) (engelsk).
 
 ```
 make install
