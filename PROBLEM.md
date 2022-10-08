@@ -54,7 +54,7 @@ Notes:
 - Instead of $d_{battery}(t)$ we should model the capacity and the net amount sold to battery in previous time periods
 - Time *t* is discretised into buckets of one hour and capital *T* denotes the last time bucket
 - Consult the tables below for all variable and constraint descriptions
-- Maybe we need a higher $p_{battery}$ when SoC < 10%
+- Maybe we need a higher $p_{battery}$ when SoC < 10%, because higher depreciation
 - Maybe we need an initial SoC for the battery
 
 ## Variables
