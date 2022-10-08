@@ -12,8 +12,6 @@ The problem has the markov property in that the current state only depends on th
 
 ## Problem formulation
 
-Consult the tables below for variable definitions.
-
 Problem formulation:
 
 $$
@@ -28,12 +26,13 @@ $$
 $$
 
 Notes:
+- Time *t* is discretised into buckets of one hour and capital *T* denotes the last time bucket
+- Consult the tables below for all variable definitions
 - You pay a price only when you buy kWh from the battery, not when you sell kWh to it
 
 
 ## Variables
 
-Time *t* is discretised into buckets of 1 hour and capital *T* denotes the last time bucket.
 
 ### Decision
 
