@@ -10,6 +10,20 @@ We will assume that all resources are located all in the same grid region, e.g. 
 
 The problem has the markov property in that the current state only depends on the previous state.
 
+Graph of who can send kWh to who?
+
+```
+           ┌───────┐       
+    ┌─x1──▶│ Grid  │──┐    
+    │      └───────┘  │    
+┌───────┐      ▲      │    
+│ Solar │      │x3    │x4    
+└───────┘      │      │    
+    │      ┌───────┐  │    
+    └─x2──▶│Battery│◀─┘    
+           └───────┘       
+```
+
 ## Problem formulation
 
 Problem formulation:
@@ -36,21 +50,6 @@ $$
 Notes:
 - Time *t* is discretised into buckets of one hour and capital *T* denotes the last time bucket
 - Consult the tables below for all variable definitions
-
-Graph of who can send kWh to who?
-
-```
-           ┌───────┐       
-    ┌─x1──▶│ Grid  │──┐    
-    │      └───────┘  │    
-┌───────┐      ▲      │    
-│ Solar │      │x3    │x4    
-└───────┘      │      │    
-    │      ┌───────┐  │    
-    └─x2──▶│Battery│◀─┘    
-           └───────┘       
-```
-
 
 ## Variables
 
