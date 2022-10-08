@@ -33,7 +33,7 @@ Notes:
 
 ## Variables
 
-Time is discretised to buckets of 1 hour.
+Time *t* is discretised into buckets of 1 hour and capital *T* denotes the last time bucket.
 
 ### Decision
 
