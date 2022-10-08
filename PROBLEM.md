@@ -69,9 +69,23 @@ For all resource types:
 For simplication, you pay a price when you buy from the battery but not when you sell to it.
 
 $$
-\begin{align}
+\begin{align*}
+  \sigma&=(P(0)\times (1-\mu)^2+P(2)\times (-1-\mu)^2+P(5)\times (-4-\mu)^2\\
+  &\qquad {} + P(10)\times (-9-\mu)^2+P(50)\times (-49-\mu)^2\\
+  &\qquad {} + P(100)\times (-99-\mu)^2+P(500)\times (-499-\mu)^2\\
+  &\qquad {} + P(1000)\times (-999-\mu)^2+P(10000)\times (-9999-\mu)^2\\
+  &\qquad {} + P(100000)\times (-99999-\mu)^2\\
+  &\qquad {} + P(1000000)\times (-999999-\mu)^2)^{1/2}\\[3px]
+  &\approx 330.307\pagebreak
+\end{align*}
+$$
+
+foo
+
+$$
+\begin{align*}
 \max \Sigma_{t \in T} x_grid(t) p_grid(t) - (y_solar(t) p_solar(t) + y_grid(t) p_grid(t) - y_battery(t) p_battery(t)) \\
-\text{s.t.}
+& \text{s.t.} \\
 TODO
-\end{align}
+\end{align*}
 $$
