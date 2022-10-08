@@ -1,8 +1,14 @@
 # Problem definition
 
-The problem has the markov property.
+There are three types of resources in the problem:
+- Solar panels
+- Battery
+- Grid
 
-We will assume that solar panels, grid and batteries are all in the same region, e.g. DK1 or DK2.
+
+We will assume that all resources are located all in the same grid region, e.g. DK1 or DK2.
+
+The problem has the markov property in that the current state only depends on the previous state.
 
 ## Variables
 
@@ -12,28 +18,29 @@ Time is discretised to buckets of 1 hour.
 
 |Variable|Description|
 |-|-|
-|x_solar(t) ∈ [0,1]|The amount of kWh to buy from solar at time *t* as a fraction of available supply|
-|x_grid(t) ∈ [0,1]|The amount of kWh to buy from the grid at time *t* as a fraction of available supply|
-|x_battery(t) ∈ [0,1]|The amount of kWh to buy from the battery at time *t* as a fraction of available supply|
-|y_grid(t) ∈ [0,1]|The amount of kWh to sell to the grid at time *t* as a fraction of available demand|
-|y_battery(t) ∈ [0,1]|The amount of kWh to sell to the battery at time *t* as a fraction of available demand|
+|x_grid(t) ∈ Z+|The amount of kWh to sell to the grid at time *t* as a fraction of available demand|
+|x_battery(t) ∈ Z+|The amount of kWh to sell to the battery at time *t* as a fraction of available demand; does not pay anything|
+|y_solar(t) ∈ Z+|The amount of kWh to buy from solar at time *t*|
+|y_grid(t) ∈ Z+|The amount of kWh to buy from the grid at time *t*|
+|y_battery(t) ∈ Z+]|The amount of kWh to buy from the battery at time *t* as a fraction of available supply|
 
-### Buy
+### Prices
 
-|Variable|Description|
-|-|-|
-|buy_solar(t)|The cost to buy 1 kWh from the solar panel, which depends on approximate depreciation of the panel per kWh produced|
-|buy_grid(t)|The cost to buy 1 kWh from the grid, at time *t*, which equals the spot price in the region|
-|buy_battery|The cost to buy 1 kWh from the battery, which equals the approximate depreciation of the battery per kWh stored|
-
-### Sell
-
-Not applicable to the solar panels, since you cannot sell kWh to them.
+We assume that the price is the same regardless of whether you buy or sell. This can easily be generalised to different prices for buying and selling.
 
 |Variable|Description|
 |-|-|
-|sell_grid(t) ∈ Z+|The revenue from selling 1 kWh to the grid, at time *t* in region *r*, which equals the spot price|
-|sell_battery(t) = 0|The revenue from selling 1 kWh to the battery, which always equals zero|
+|price_solar(t)|The price of buying 1 kWh from the solar panel, which depends on approximate depreciation of the panel per kWh produced|
+|price_grid(t)|The price of buying/selling 1 kWh from/to the grid, at time *t*, which equals the spot price in the region|
+|price_battery(t)|The price to buy/sell 1 kWh from the battery, which equals the approximate depreciation of the battery per kWh stored|
+
+### Revenue
+
+Only applicable to the grid. Since you cannot sell kWh to the solar panels and the battery does not pay anything.
+
+|Variable|Description|
+|-|-|
+|revenue_grid(t) ∈ Z+|The revenue from selling 1 kWh to the grid, at time *t* in the given region, which equals the spot price|
 
 ### Supply
 
@@ -52,11 +59,17 @@ Not applicable to the solar panels, since you cannot sell kWh to them.
 
 ## Constraints
 
-- Selling can't exceed demand, for all resource types
-- Buying can't exceed supply, for all resource types
+For all resource types:
+- Sales cannot exceed demand
+- Sales cannot exceed amount purchached from other resources
+- Purchases cannot exceed supply
 
-## Problem
+## Problem formulation
+
+For simplication, you pay a price when you buy from the battery but not when you sell to it.
 
 $$
-\max \Sigma x
+\max \Sigma_{t \in T} x_grid(t) p_grid(t) - (y_solar(t) p_solar(t) + y_grid(t) p_grid(t) - y_battery(t) p_battery(t))
+\shortintertext{subject to}
+TODO
 $$
