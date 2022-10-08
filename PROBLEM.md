@@ -76,7 +76,7 @@ $$
   &\qquad {} + P(1000)\times (-999-\mu)^2+P(10000)\times (-9999-\mu)^2\\
   &\qquad {} + P(100000)\times (-99999-\mu)^2\\
   &\qquad {} + P(1000000)\times (-999999-\mu)^2)^{1/2}\\[3px]
-  &\approx 330.307\pagebreak
+  &\approx 330.307
 \end{align*}
 $$
 
