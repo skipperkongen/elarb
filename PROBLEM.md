@@ -84,7 +84,10 @@ foo
 
 $$
 \begin{align*}
-\max \Sigma_{t \in T} & x_{grid}(t) p_{grid}(t) - y_{solar}(t) p_{solar}(t) + y_{grid}(t) p_{grid}(t) - y_{battery}(t) p_{battery}(t)) \\
+\max \Sigma_{t \in T} & x_{grid}(t) p_{grid}(t) \\
+& - y_{solar}(t) p_{solar}(t) \\
+& + y_{grid}(t) p_{grid}(t) \\
+& - y_{battery}(t) p_{battery}(t)) \\
 \text{s.t.} &  \\
 TODO \\
 \end{align*}
