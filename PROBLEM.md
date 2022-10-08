@@ -42,7 +42,7 @@ $$
 & \quad x1(t) + x2(t) \leq s_solar(t) \\
 & \quad x3(t) \leq s_{battery}(t) \\
 & \quad x4(t) \leq s_grid(t) \\
-& \quad x1(t) + x4(t) \leq d_{grid}(t)
+& \quad x1(t) + x4(t) \leq d_{grid}(t) \\
 & x1(t) \in \mathbb{Z}^+, x2(t) \in \mathbb{Z}^+, x3(t) \in \mathbb{Z}^+, x4(t) \in \mathbb{Z}^+, \quad \forall t \\
 \end{align*}
 $$
