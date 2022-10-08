@@ -41,7 +41,7 @@ $$
 \text{s.t.} &  \\
 & \quad x1(t) + x3(t) \leq d_{grid}(t) \\
 & \quad x2(t) + x4(t) \leq d_{battery}(t) \\
-& \quad x1(t) + x2(t) \leq s_solar(t) \\
+& \quad x1(t) + x2(t) \leq s_{solar}(t) \\
 & \quad x3(t) \leq s_{battery}(t) \\
 & \quad x4(t) \leq s_grid(t) \\
 & \quad x1(t) + x4(t) \leq d_{grid}(t) \\
