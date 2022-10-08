@@ -2,6 +2,11 @@
 
 > Datakilder: Henrik, Energi Data Service
 
+```
+make install
+make test
+```
+
 
 [![Explanation of markets](https://img.youtube.com/vi/7wAvBzMc7QI/maxresdefault.jpg)](https://www.youtube.com/watch?v=7wAvBzMc7QI)
 
