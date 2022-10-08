@@ -49,7 +49,7 @@ $$
 
 Notes:
 - Time *t* is discretised into buckets of one hour and capital *T* denotes the last time bucket
-- Consult the tables below for all variable definitions
+- Consult the tables below for all variable and constraint descriptions
 
 ## Variables
 
