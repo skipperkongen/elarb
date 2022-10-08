@@ -10,6 +10,24 @@ We will assume that all resources are located all in the same grid region, e.g. 
 
 The problem has the markov property in that the current state only depends on the previous state.
 
+## Problem formulation
+
+For simplication, you pay a price when you buy from the battery but not when you sell to it.
+
+Consult the tables below for variable definitions.
+
+$$
+\begin{align*}
+\max \Sigma_{t \in T} & \quad sell_{grid}(t) price_{grid}(t) \\
+& \quad - buy_{solar}(t) price_{solar}(t) \\
+& \quad - buy_{grid}(t) price_{grid}(t) \\
+& \quad - buy_{battery}(t) price_{battery}(t)) \\
+\text{s.t.} &  \\
+& TODO \\
+\end{align*}
+$$
+
+
 ## Variables
 
 Time is discretised to buckets of 1 hour.
@@ -18,11 +36,11 @@ Time is discretised to buckets of 1 hour.
 
 |Variable|Description|
 |-|-|
-|x_grid(t) ∈ Z+|The amount of kWh to sell to the grid at time *t* as a fraction of available demand|
-|x_battery(t) ∈ Z+|The amount of kWh to sell to the battery at time *t* as a fraction of available demand; does not pay anything|
-|y_solar(t) ∈ Z+|The amount of kWh to buy from solar at time *t*|
-|y_grid(t) ∈ Z+|The amount of kWh to buy from the grid at time *t*|
-|y_battery(t) ∈ Z+]|The amount of kWh to buy from the battery at time *t* as a fraction of available supply|
+|sell_grid(t) ∈ Z+|The amount of kWh to sell to the grid at time *t* as a fraction of available demand|
+|sell_battery(t) ∈ Z+|The amount of kWh to sell to the battery at time *t* as a fraction of available demand; does not pay anything|
+|buy_solar(t) ∈ Z+|The amount of kWh to buy from solar at time *t*|
+|buy_grid(t) ∈ Z+|The amount of kWh to buy from the grid at time *t*|
+|buy_battery(t) ∈ Z+]|The amount of kWh to buy from the battery at time *t* as a fraction of available supply|
 
 ### Prices
 
@@ -63,32 +81,3 @@ For all resource types:
 - Sales cannot exceed demand
 - Sales cannot exceed amount purchached from other resources
 - Purchases cannot exceed supply
-
-## Problem formulation
-
-For simplication, you pay a price when you buy from the battery but not when you sell to it.
-
-$$
-\begin{align*}
-  \sigma&=(P(0)\times (1-\mu)^2+P(2)\times (-1-\mu)^2+P(5)\times (-4-\mu)^2\\
-  &\qquad {} + P(10)\times (-9-\mu)^2+P(50)\times (-49-\mu)^2\\
-  &\qquad {} + P(100)\times (-99-\mu)^2+P(500)\times (-499-\mu)^2\\
-  &\qquad {} + P(1000)\times (-999-\mu)^2+P(10000)\times (-9999-\mu)^2\\
-  &\qquad {} + P(100000)\times (-99999-\mu)^2\\
-  &\qquad {} + P(1000000)\times (-999999-\mu)^2)^{1/2}\\[3px]
-  &\approx 330.307
-\end{align*}
-$$
-
-foo
-
-$$
-\begin{align*}
-\max \Sigma_{t \in T} & \quad x_{grid}(t) p_{grid}(t) \\
-& \quad - y_{solar}(t) p_{solar}(t) \\
-& \quad - y_{grid}(t) p_{grid}(t) \\
-& \quad - y_{battery}(t) p_{battery}(t)) \\
-\text{s.t.} &  \\
-& TODO \\
-\end{align*}
-$$
