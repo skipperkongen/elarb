@@ -1,7 +1,5 @@
 # Problem definition
 
-> TODO: add battery capacity constraint
-
 There are three types of resources in the problem:
 - Solar panels
 - Battery
@@ -27,6 +25,8 @@ Graph of who can send kWh to who:
 ```
 
 ## Problem formulation
+
+> TODO: add battery capacity constraint
 
 Problem formulation:
 
