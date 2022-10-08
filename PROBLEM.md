@@ -16,7 +16,7 @@ Problem formulation:
 
 $$
 \begin{align*}
-\max \Sigma_{t \in T} & \quad x1{grid}(t) \cdot p_{grid}(t) \\
+\max \Sigma_{t \in T} & \quad x1(t) \cdot p_{grid}(t) \\
 & \quad + x3(t) \cdot p_{grid}(t) \\
 & \quad - x1(t) \cdot p_{solar}(t) \\
 & \quad - x2(t) \cdot p_{solar}(t) \\
