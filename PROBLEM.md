@@ -26,7 +26,7 @@ Graph of who can send kWh to who:
 
 ## Problem formulation
 
-> think about how/if to include conversion loss in formula. Can it be modelled via capacity, cost and supply instead?
+> think about how/if to include conversion loss in formula. Can it be modelled as a "tax" on x3?
 
 Problem formulation:
 
