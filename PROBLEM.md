@@ -32,12 +32,11 @@ Problem formulation:
 
 $$
 \begin{align*}
-\underset{x}{\mathrm{argmax}} \quad \Sigma_{t \in T} & \quad x1(t) \cdot p_{grid}(t) \\
-& \quad + x3(t) \cdot p_{grid}(t) \\
-& \quad - x1(t) \cdot p_{solar}(t) \\
-& \quad - x2(t) \cdot p_{solar}(t) \\
-& \quad - x3(t) \cdot p_{battery}(t) \\
-& \quad - x4(t) \cdot p_{grid}(t) \\
+\underset{x}{\mathrm{argmax}} \quad \Sigma_{t \in T}
+& \quad x1(t) \cdot p_{grid}(t) - x1(t) \cdot p_{solar}(t) \\
+& \quad x2(t) \cdot p_{battery}(t) - x2(t) \cdot p_{solar}(t) \\
+& \quad x3(t) \cdot p_{grid}(t) - x3(t) \cdot p_{battery}(t) \\
+& \quad x4(t) \cdot p_{battery}(t) - x4(t) \cdot p_{grid}(t) \\
 \text{s.t.} &  \\
 & \quad x1(t) + x3(t) \leq d_{grid}(t) \\
 & \quad x2(t) + x4(t) \leq d_{battery}(t) \\
