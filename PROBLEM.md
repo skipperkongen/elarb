@@ -30,7 +30,7 @@ Problem formulation:
 
 $$
 \begin{align*}
-\max \Sigma_{t \in T} & \quad x1(t) \cdot p_{grid}(t) \\
+\argmax \Sigma_{t \in T} & \quad x1(t) \cdot p_{grid}(t) \\
 & \quad + x3(t) \cdot p_{grid}(t) \\
 & \quad - x1(t) \cdot p_{solar}(t) \\
 & \quad - x2(t) \cdot p_{solar}(t) \\
@@ -43,7 +43,7 @@ $$
 & \quad x3(t) \leq s_{battery}(t) \\
 & \quad x4(t) \leq s_grid(t) \\
 & \quad x1(t) + x4(t) \leq d_{grid}(t) \\
-& \quad maximum init_{battery} + \Sigma_{t=0}^{i} (x2(t)+x4(t)-x3(t)) \leq C_{battery}, \forall i \in \lbrack 1, T \rbrack \\
+& \quad max \lbrace init_{battery} + \Sigma_{t=0}^{i} x2(t)+x4(t)-x3(t) \rbrace \leq C_{battery}, \forall i \in \lbrack 1, T \rbrack \\
 & x1(t) \in \mathbb{Z}^+, x2(t) \in \mathbb{Z}^+, x3(t) \in \mathbb{Z}^+, x4(t) \in \mathbb{Z}^+, \quad \forall t \\
 \end{align*}
 $$
