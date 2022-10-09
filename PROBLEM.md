@@ -26,6 +26,8 @@ Graph of who can send kWh to who:
 
 ## Problem formulation
 
+> think about how/if to include conversion loss in formula. Can it be modelled via capacity, cost and supply instead?
+
 Problem formulation:
 
 $$
