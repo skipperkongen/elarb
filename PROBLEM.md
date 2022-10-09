@@ -113,4 +113,4 @@ We assume that the price is the same regardless of whether you buy or sell. This
 |x3(t) ≤ s_battery(t)|the amound to buy from battery cannot exceed the supply of the battery|
 |x4(t) ≤ s_grid(t)|the amound to buy from grid cannot exceed the supply of the grid|
 |x1(t) + x4(t) ≤ d_grid(t)|the amound to buy from the solar panel and the grid cannot exceed the demand of the battery|
-|max (init_battery + Σ_t=0^i (x2(t)+x4(t)-x3(t)) ≤ C_battery, ∀ i ∈ [1, T]|Capacity constraint of battery|
+|max (init_battery + Σ_t=0^i (x2(t)+x4(t)-x3(t)) ≤ C_battery, ∀ i ∈ [1, T]|Capacity constraint of battery. Compute the cumulative sum of input/output of battery (x2, x3, x4) up to t for all t, which must be below capacity for all t|
