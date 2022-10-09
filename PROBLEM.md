@@ -26,8 +26,6 @@ Graph of who can send kWh to who:
 
 ## Problem formulation
 
-> TODO: add battery capacity constraint
-
 Problem formulation:
 
 $$
@@ -45,13 +43,17 @@ $$
 & \quad x3(t) \leq s_{battery}(t) \\
 & \quad x4(t) \leq s_grid(t) \\
 & \quad x1(t) + x4(t) \leq d_{grid}(t) \\
+& \quad maximum init_{battery} + \Sigma_{t=0}^{i} (x2(t)+x4(t)-x3(t)) \leq C_{battery}, \forall i \in \lbrack 1, T \rbrack \\
 & x1(t) \in \mathbb{Z}^+, x2(t) \in \mathbb{Z}^+, x3(t) \in \mathbb{Z}^+, x4(t) \in \mathbb{Z}^+, \quad \forall t \\
 \end{align*}
 $$
 
+Tips:
+- I can use cvxpy's [cumsum](https://www.cvxpy.org/api_reference/cvxpy.atoms.affine.html#cumsum) along with [max](https://www.cvxpy.org/api_reference/cvxpy.atoms.other_atoms.html#max) for capacity constraint! The sum over time (x2+x4-x3).
+
 Notes:
 - We can assume that $d_{grid} = \infty, \forall t$, but the constraint is included anyway
-- Instead of $d_{battery}(t)$ we should model that the net amount sold to battery in previous time (i.e. all t' < t) plus the initial charge cannot exceed the capacity, for all t. 
+- Instead of $d_{battery}(t)$ we should model that the net amount sold to battery in previous time (i.e. all t' < t) plus the initial charge cannot exceed the capacity, for all t.
 - Time *t* is discretised into buckets of one hour and capital *T* denotes the last time bucket
 - Consult the tables below for all variable and constraint descriptions
 - Maybe we need a higher $p_{battery}$ when SoC < 10%, because higher depreciation
@@ -98,7 +100,7 @@ We assume that the price is the same regardless of whether you buy or sell. This
 
 |Variable|Description|
 |-|-|
-|f_battery ∈ [0,1]|The state of charge (SoC) of the battery in percent|
+|init_battery ∈ Z+|The initial state of charge (SoC) of the battery in kWh|
 |C_battery|The capacity of the battery in kWh|
 
 ## Constraints
@@ -111,3 +113,4 @@ We assume that the price is the same regardless of whether you buy or sell. This
 |x3(t) ≤ s_battery(t)|the amound to buy from battery cannot exceed the supply of the battery|
 |x4(t) ≤ s_grid(t)|the amound to buy from grid cannot exceed the supply of the grid|
 |x1(t) + x4(t) ≤ d_grid(t)|the amound to buy from the solar panel and the grid cannot exceed the demand of the battery|
+|max (init_battery + Σ_t=0^i (x2(t)+x4(t)-x3(t)) ≤ C_battery, ∀ i ∈ [1, T]|Capacity constraint of battery|
