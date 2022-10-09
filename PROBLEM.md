@@ -49,7 +49,7 @@ $$
 $$
 
 Tips:
-- I can use cvxpy's [cumsum](https://www.cvxpy.org/api_reference/cvxpy.atoms.affine.html#cumsum) along with [max](https://www.cvxpy.org/api_reference/cvxpy.atoms.other_atoms.html#max) for capacity constraint! The sum over time (x2+x4-x3).
+- We can use cvxpy's [cumsum](https://www.cvxpy.org/api_reference/cvxpy.atoms.affine.html#cumsum) along with [max](https://www.cvxpy.org/api_reference/cvxpy.atoms.other_atoms.html#max) for capacity constraint! The sum over time (x2+x4-x3).
 
 Notes:
 - We can assume that $d_{grid} = \infty, \forall t$, but the constraint is included anyway
