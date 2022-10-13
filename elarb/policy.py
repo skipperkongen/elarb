@@ -86,7 +86,7 @@ def get_optimal_policy(input: PolicyInput) -> PolicyOutput:
 
     # grid to battery
     yield4 = cp.Parameter(n)
-    yield4.value = input.grid.spot_price # - bat_depreciation
+    yield4.value = -input.grid.spot_price # - bat_depreciation
 
     # objective
     x1_contrib = yield1@x1
