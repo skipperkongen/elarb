@@ -148,9 +148,9 @@ def optimal_policy(input: PolicyInput, solver='ECOS_BB') -> PolicyOutput:
     # throughput constraints
     constraints += [
         # cannot exceed inverter throughput
-        x1 + x2 + x3 + x4 <= input.inverter.throughput_kWh,
+        x1 + x2 + x3 + x4 <= input.n_inverters * input.inverter.throughput_kWh,
         # cannot exceed battery throughput
-        x2 + x3 + x4 <= input.battery.throughput_kWh,
+        x2 + x3 + x4 <= input.n_inverters * input.battery.throughput_kWh,
         # cannot exceed grid throughput
         x1 + x3 + x4 <= input.grid.throughput_kWh,
     ]
