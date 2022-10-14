@@ -7,16 +7,24 @@ from elarb.models import (
     SolarPanel,
     Battery,
     Inverter,
-    Grid,
+    GridConnection,
 )
 
 
 @dataclass
 class PolicyInput:
-    solar: SolarPanel
+    pv_kWh: np.ndarray
+    spot_price: np.ndarray
+    spot_demand_kWh: np.ndarray
+    spot_supply_kWh: np.ndarray
+    panel: SolarPanel
     battery: Battery
     inverter: Inverter
-    grid: Grid
+    grid: GridConnection
+    n_panels: int = 1
+    n_batteries: int = 1
+    n_inverters: int = 1
+    initial_soc: float = 0
 
 
 @dataclass
@@ -26,9 +34,15 @@ class PolicyOutput:
     x2: np.ndarray
     x3: np.ndarray
     x4: np.ndarray
+    x1_contrib: float
+    x2_contrib: float
+    x3_contrib: float
+    x4_contrib: float
+    panel_depreciation:float
+    inverter_depreciation: float
+    battery_depreciation: float
 
-
-def get_optimal_policy(input: PolicyInput) -> PolicyOutput:
+def optimal_policy(input: PolicyInput, solver='ECOS_BB') -> PolicyOutput:
     """
                ┌───────┐
         ┌─x1──▶│ Grid  │──┐
@@ -39,9 +53,11 @@ def get_optimal_policy(input: PolicyInput) -> PolicyOutput:
         │      ┌───────┐  │
         └─x2──▶│Battery│◀─┘
                └───────┘
+
+    TODO: initial_soc
     """
 
-    n = len(input.grid.spot_price)
+    n = len(input.spot_price)
 
     # variables
     x1 = cp.Variable(n, nonneg=True)  # solar to grid
@@ -50,31 +66,36 @@ def get_optimal_policy(input: PolicyInput) -> PolicyOutput:
     x4 = cp.Variable(n, nonneg=True)  # grid to battery
 
     # grid
-    grid_demand = cp.Parameter(n, nonneg=True)
-    grid_demand.value = input.grid.demand_kWh
-    grid_supply = cp.Parameter(n, nonneg=True)
-    grid_supply.value = input.grid.supply_kWh
+    spot_demand_kWh = cp.Parameter(n, nonneg=True)
+    spot_demand_kWh.value = input.spot_demand_kWh
+    spot_supply_kWh = cp.Parameter(n, nonneg=True)
+    spot_supply_kWh.value = input.spot_supply_kWh
 
-    # solar
-    solar_supply = cp.Parameter(n, nonneg=True)
-    solar_supply.value = input.solar.supply_kWh
+    # panels
+    panel_supply_kWh = cp.Parameter(n, nonneg=True)
+    panel_supply_kWh.value = input.pv_kWh * input.panel.m2 * input.n_panels
+    panel_depreciation = cp.Parameter(nonneg=True)
+    panel_depreciation.value =  n * input.panel.depreciation_per_hour * input.n_panels
 
-
-    # battery
+    # batteries
     battery_residual = 1 - input.battery.conversion_loss_pct
     # cumulative sum of input - output of battery over all times t
-    battery_soc = cp.cumsum(
+    battery_cap_kWh = input.battery.capacity_kWh * input.n_batteries
+    battery_soc_kWh = cp.cumsum(
         x2 * battery_residual + x4 * battery_residual - x3
     )
+    battery_depreciation = cp.sum(x3) * input.battery.depreciation_per_kWh
 
-    # inverter
+    # inverters
     # input.inverter.throughput_kWh
     # input.inverter.conversion_loss_pct
     # input.inverter.depreciation_per_hour
+    inverter_depreciation = cp.Parameter(nonneg=True)
+    inverter_depreciation.value = n * input.inverter.depreciation_per_hour * input.n_inverters
 
-    # solar to grid
+    # panel to grid
     yield1 = cp.Parameter(n)
-    yield1.value = input.grid.spot_price
+    yield1.value = input.spot_price
 
     # solar to battery
     yield2 = cp.Parameter(n)
@@ -82,11 +103,11 @@ def get_optimal_policy(input: PolicyInput) -> PolicyOutput:
 
     # battery to grid
     yield3 = cp.Parameter(n)
-    yield3.value = input.grid.spot_price - input.battery.depreciation_per_kWh
+    yield3.value = input.spot_price
 
     # grid to battery
     yield4 = cp.Parameter(n)
-    yield4.value = -input.grid.spot_price # - bat_depreciation
+    yield4.value = -input.spot_price
 
     # objective
     x1_contrib = yield1@x1
@@ -98,8 +119,7 @@ def get_optimal_policy(input: PolicyInput) -> PolicyOutput:
         + x2_contrib
         + x3_contrib
         + x4_contrib
-        - input.solar.depreciation_per_hour
-        - input.inverter.depreciation_per_hour
+        - (panel_depreciation + inverter_depreciation + battery_depreciation)
     ))
 
     # constraints
@@ -107,23 +127,23 @@ def get_optimal_policy(input: PolicyInput) -> PolicyOutput:
     # buying constraints
     constraints += [
         # buys cannot exceed output of solar panels
-        x1 + x2 <= solar_supply,
+        x1 + x2 <= panel_supply_kWh,
         # buys cannot exceed battery state of charge
-        x3 <= battery_soc,
+        x3 <= battery_soc_kWh,
         # buys cannot exceed grid supply (available to buy)
-        x4 <= grid_supply,
+        x4 <= spot_supply_kWh,
     ]
     # selling constraints
     constraints += [
         # sales cannot exceed grid demand
-        x1 + x3 <= grid_demand,
+        x1 + x3 <= spot_demand_kWh,
         # sales cannot exceed battery capacity - soc
-        x2 + x4 <= input.battery.capacity_kWh - battery_soc,
+        x2 + x4 <= input.battery.capacity_kWh - battery_soc_kWh,
     ]
     # capacity constraints
     constraints += [
         # SoC cannot exceed battery capacity
-        cp.max(battery_soc) <= input.battery.capacity_kWh,
+        cp.max(battery_soc_kWh) <= battery_cap_kWh,
     ]
     # throughput constraints
     constraints += [
@@ -136,7 +156,7 @@ def get_optimal_policy(input: PolicyInput) -> PolicyOutput:
     ]
 
     prob = cp.Problem(objective, constraints)
-    opt = prob.solve()
+    opt = prob.solve(solver=solver)
 
     return PolicyOutput(
         value=opt,
@@ -144,4 +164,11 @@ def get_optimal_policy(input: PolicyInput) -> PolicyOutput:
         x2=x2.value,
         x3=x3.value,
         x4=x4.value,
+        x1_contrib=x1_contrib.value,
+        x2_contrib=x2_contrib.value,
+        x3_contrib=x3_contrib.value,
+        x4_contrib=x4_contrib.value,
+        panel_depreciation=panel_depreciation.value,
+        inverter_depreciation=inverter_depreciation.value,
+        battery_depreciation=battery_depreciation.value,
     )
