@@ -41,6 +41,8 @@ class PolicyOutput:
     panel_depreciation:float
     inverter_depreciation: float
     battery_depreciation: float
+    battery_soc_kWh: np.ndarray
+
 
 def optimal_policy(input: PolicyInput, solver='ECOS_BB') -> PolicyOutput:
     """
@@ -73,14 +75,14 @@ def optimal_policy(input: PolicyInput, solver='ECOS_BB') -> PolicyOutput:
 
     # panels
     panel_supply_kWh = cp.Parameter(n, nonneg=True)
-    panel_supply_kWh.value = input.pv_kWh * input.panel.m2 * input.n_panels
+    panel_supply_kWh.value = input.n_panels * input.pv_kWh * input.panel.m2
     panel_depreciation = cp.Parameter(nonneg=True)
-    panel_depreciation.value =  n * input.panel.depreciation_per_hour * input.n_panels
+    panel_depreciation.value =  input.n_panels * n * input.panel.depreciation_per_hour
 
     # batteries
     battery_residual = 1 - input.battery.conversion_loss_pct
     # cumulative sum of input - output of battery over all times t
-    battery_cap_kWh = input.battery.capacity_kWh * input.n_batteries
+    battery_cap_kWh = input.n_batteries * input.battery.capacity_kWh
     battery_soc_kWh = cp.cumsum(
         x2 * battery_residual + x4 * battery_residual - x3
     )
@@ -91,7 +93,7 @@ def optimal_policy(input: PolicyInput, solver='ECOS_BB') -> PolicyOutput:
     # input.inverter.conversion_loss_pct
     # input.inverter.depreciation_per_hour
     inverter_depreciation = cp.Parameter(nonneg=True)
-    inverter_depreciation.value = n * input.inverter.depreciation_per_hour * input.n_inverters
+    inverter_depreciation.value = input.n_inverters * n * input.inverter.depreciation_per_hour
 
     # panel to grid
     yield1 = cp.Parameter(n)
@@ -135,10 +137,10 @@ def optimal_policy(input: PolicyInput, solver='ECOS_BB') -> PolicyOutput:
     ]
     # selling constraints
     constraints += [
-        # sales cannot exceed grid demand
+        # sales to grid cannot exceed grid demand
         x1 + x3 <= spot_demand_kWh,
-        # sales cannot exceed battery capacity - soc
-        x2 + x4 <= input.battery.capacity_kWh - battery_soc_kWh,
+        # sales to battery cannot exceed battery capacity - soc
+        x2 + x4 <= input.n_batteries * input.battery.capacity_kWh - battery_soc_kWh,
     ]
     # capacity constraints
     constraints += [
@@ -150,7 +152,7 @@ def optimal_policy(input: PolicyInput, solver='ECOS_BB') -> PolicyOutput:
         # cannot exceed inverter throughput
         x1 + x2 + x3 + x4 <= input.n_inverters * input.inverter.throughput_kWh,
         # cannot exceed battery throughput
-        x2 + x3 + x4 <= input.n_inverters * input.battery.throughput_kWh,
+        x2 + x3 + x4 <= input.n_batteries * input.battery.throughput_kWh,
         # cannot exceed grid throughput
         x1 + x3 + x4 <= input.grid.throughput_kWh,
     ]
@@ -171,4 +173,5 @@ def optimal_policy(input: PolicyInput, solver='ECOS_BB') -> PolicyOutput:
         panel_depreciation=panel_depreciation.value,
         inverter_depreciation=inverter_depreciation.value,
         battery_depreciation=battery_depreciation.value,
+        battery_soc_kWh=battery_soc_kWh.value,
     )
