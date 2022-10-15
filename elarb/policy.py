@@ -128,19 +128,20 @@ def optimal_policy(input: PolicyInput, solver='ECOS_BB') -> PolicyOutput:
     constraints = []
     # buying constraints
     constraints += [
-        # buys cannot exceed output of solar panels
+        # TODO: check behavior of array <= array in constraint
+        # buys cannot exceed supply of solar panels
         x1 + x2 <= panel_supply_kWh,
-        # buys cannot exceed battery state of charge
+        # buys cannot exceed state of charge of battery
         x3 <= battery_soc_kWh,
-        # buys cannot exceed grid supply (available to buy)
+        # buys cannot exceed supply (i.e., available to buy) of grid
         x4 <= spot_supply_kWh,
     ]
     # selling constraints
     constraints += [
         # sales to grid cannot exceed grid demand
         x1 + x3 <= spot_demand_kWh,
-        # sales to battery cannot exceed battery capacity - soc
-        x2 + x4 <= input.n_batteries * input.battery.capacity_kWh - battery_soc_kWh,
+        # sales to battery cannot exceed remaining free space of battery
+        x2 + x4 <= battery_cap_kWh - battery_soc_kWh,
     ]
     # capacity constraints
     constraints += [
