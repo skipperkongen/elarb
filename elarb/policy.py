@@ -83,10 +83,21 @@ def optimal_policy(input: PolicyInput, solver='ECOS_BB') -> PolicyOutput:
     battery_residual = 1 - input.battery.conversion_loss_pct
     # cumulative sum of input - output of battery over all times t
     battery_cap_kWh = input.n_batteries * input.battery.capacity_kWh
+
+    battery_soc_kWh_lag = cp.hstack([
+        [input.initial_soc],
+        (x2 * battery_residual + x4 * battery_residual - x3)[:-1]
+    ])
     battery_soc_kWh = cp.cumsum(
-        x2 * battery_residual + x4 * battery_residual - x3
+        battery_soc_kWh_lag
     )
     battery_depreciation = cp.sum(x3) * input.battery.depreciation_per_kWh
+
+    # battery_soc_kWh = cp.cumsum(
+    #     x2 * battery_residual + x4 * battery_residual - x3
+    # )
+    # battery_depreciation = cp.sum(x3) * input.battery.depreciation_per_kWh
+
 
     # inverters
     # input.inverter.throughput_kWh
