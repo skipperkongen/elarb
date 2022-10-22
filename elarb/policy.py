@@ -79,7 +79,12 @@ def optimal_policy(input: PolicyInput, solver='ECOS_BB') -> PolicyOutput:
 
     # panels
     panel_supply_kWh = cp.Parameter(n, nonneg=True)
-    panel_supply_kWh.value = input.facility.n_panels * input.pv_dc_kWh_m2 * input.facility.panel.m2
+    irradiance_kWh = input.pv_dc_kWh_m2 * input.facility.panel.m2
+    peak_kWh = np.zeros(n) + input.facility.panel.peak_kWh
+    panel_supply_kWh.value = (
+        input.facility.n_panels
+        * np.minimum(irradiance_kWh, peak_kWh)
+    )
     panel_depreciation = cp.Parameter(nonneg=True)
     panel_depreciation.value =  (
         n

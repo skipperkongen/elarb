@@ -8,6 +8,7 @@ import numpy as np
 @dataclass
 class SolarPanel:
     m2: float = 0.75
+    peak_kWh = 0.47
     depreciation_per_hour: float = 0.0059
 
 
