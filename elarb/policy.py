@@ -1,30 +1,34 @@
 from dataclasses import dataclass
 
+import pandas as pd
 import numpy as np
 import cvxpy as cp
 
 from elarb.models import (
-    SolarPanel,
-    Battery,
-    Inverter,
-    GridConnection,
+    Facility,
 )
+
+def create_policy_input(facility: Facility, df: pd.DataFrame, initial_soc: float = 0.0):
+    return PolicyInput(
+        facility=facility,
+        spot_price=df.spot_price.values,
+        pv_dc_kWh_m2=df.pv_dc_kWh_m2.values,
+        net_tariff=df.net_tariff.values,
+        spot_demand_kWh=df.spot_demand_kWh.values,
+        spot_supply_kWh=df.spot_supply_kWh.values,
+        initial_soc=initial_soc,
+    )
 
 
 @dataclass
 class PolicyInput:
-    pv_kWh: np.ndarray
+    facility: Facility
     spot_price: np.ndarray
+    pv_dc_kWh_m2: np.ndarray
+    net_tariff: np.ndarray
     spot_demand_kWh: np.ndarray
     spot_supply_kWh: np.ndarray
-    panel: SolarPanel
-    battery: Battery
-    inverter: Inverter
-    grid: GridConnection
-    n_panels: int = 1
-    n_batteries: int = 1
-    n_inverters: int = 1
-    initial_soc: float = 0
+    initial_soc: float = 0.0
 
 
 @dataclass
@@ -75,14 +79,18 @@ def optimal_policy(input: PolicyInput, solver='ECOS_BB') -> PolicyOutput:
 
     # panels
     panel_supply_kWh = cp.Parameter(n, nonneg=True)
-    panel_supply_kWh.value = input.n_panels * input.pv_kWh * input.panel.m2
+    panel_supply_kWh.value = input.facility.n_panels * input.pv_dc_kWh_m2 * input.facility.panel.m2
     panel_depreciation = cp.Parameter(nonneg=True)
-    panel_depreciation.value =  input.n_panels * n * input.panel.depreciation_per_hour
+    panel_depreciation.value =  (
+        n
+        * input.facility.n_panels
+        * input.facility.panel.depreciation_per_hour
+    )
 
     # batteries
-    battery_residual = 1 - input.battery.conversion_loss_pct
+    battery_residual = 1 - input.facility.battery.conversion_loss_pct
     # cumulative sum of input - output of battery over all times t
-    battery_cap_kWh = input.n_batteries * input.battery.capacity_kWh
+    battery_cap_kWh = input.facility.n_batteries * input.facility.battery.capacity_kWh
 
     battery_soc_kWh_lag = cp.hstack([
         [input.initial_soc],
@@ -91,7 +99,7 @@ def optimal_policy(input: PolicyInput, solver='ECOS_BB') -> PolicyOutput:
     battery_soc_kWh = cp.cumsum(
         battery_soc_kWh_lag
     )
-    battery_depreciation = cp.sum(x3) * input.battery.depreciation_per_kWh
+    battery_depreciation = cp.sum(x3) * input.facility.battery.depreciation_per_kWh
 
     # battery_soc_kWh = cp.cumsum(
     #     x2 * battery_residual + x4 * battery_residual - x3
@@ -100,11 +108,15 @@ def optimal_policy(input: PolicyInput, solver='ECOS_BB') -> PolicyOutput:
 
 
     # inverters
-    # input.inverter.throughput_kWh
-    # input.inverter.conversion_loss_pct
-    # input.inverter.depreciation_per_hour
+    # input.facility.inverter.throughput_kWh
+    # input.facility.inverter.conversion_loss_pct
+    # input.facility.inverter.depreciation_per_hour
     inverter_depreciation = cp.Parameter(nonneg=True)
-    inverter_depreciation.value = input.n_inverters * n * input.inverter.depreciation_per_hour
+    inverter_depreciation.value = (
+        n
+        * input.facility.n_inverters
+        * input.facility.inverter.depreciation_per_hour
+    )
 
     # panel to grid
     yield1 = cp.Parameter(n)
@@ -162,11 +174,11 @@ def optimal_policy(input: PolicyInput, solver='ECOS_BB') -> PolicyOutput:
     # throughput constraints
     constraints += [
         # cannot exceed inverter throughput
-        x1 + x2 + x3 + x4 <= input.n_inverters * input.inverter.throughput_kWh,
+        x1 + x2 + x3 + x4 <= input.facility.n_inverters * input.facility.inverter.throughput_kWh,
         # cannot exceed battery throughput
-        x2 + x3 + x4 <= input.n_batteries * input.battery.throughput_kWh,
+        x2 + x3 + x4 <= input.facility.n_batteries * input.facility.battery.throughput_kWh,
         # cannot exceed grid throughput
-        x1 + x3 + x4 <= input.grid.throughput_kWh,
+        x1 + x3 + x4 <= input.facility.grid.throughput_kWh,
     ]
 
     prob = cp.Problem(objective, constraints)

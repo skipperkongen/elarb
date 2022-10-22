@@ -1,29 +1,42 @@
+from abc import ABC, abstractmethod
 from dataclasses import dataclass
+import datetime
 
 import numpy as np
 
 
 @dataclass
 class SolarPanel:
-    m2: float = 1.0
-    depreciation_per_hour: float = 0.0
+    m2: float = 0.75
+    depreciation_per_hour: float = 0.0059
 
 
 @dataclass
 class Battery:
-    capacity_kWh: float
-    throughput_kWh: float
-    conversion_loss_pct: float = 0.0
-    depreciation_per_kWh: float = 0.0
+    capacity_kWh: float = 8.8
+    throughput_kWh: float = 3.3
+    conversion_loss_pct: float = 0.03
+    depreciation_per_kWh: float = 0.398
 
 
 @dataclass
 class GridConnection:
-    throughput_kWh: float
+    throughput_kWh: float = 25.2
 
 
 @dataclass
 class Inverter:
-    throughput_kWh: float
+    throughput_kWh: float = 15.6
     depreciation_per_hour: float = 0.0
-    conversion_loss_pct: float = 0.0
+    conversion_loss_pct: float = 0.03
+
+
+@dataclass
+class Facility:
+    panel: SolarPanel = SolarPanel()
+    battery: Battery = Battery()
+    inverter: Inverter = Inverter()
+    grid: GridConnection = GridConnection()
+    n_panels: int = 1
+    n_batteries: int = 1
+    n_inverters: int = 1
