@@ -1,13 +1,9 @@
-=======
-Credits
-=======
+# Credits
 
-Development Lead
-----------------
+## Development Lead
 
 * Pimin Konstantin Kefaloukos <skipperkongen@gmail.com>
 
-Contributors
-------------
+## Contributors
 
 None yet. Why not be the first?

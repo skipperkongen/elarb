@@ -1,8 +1,4 @@
-from abc import ABC, abstractmethod
 from dataclasses import dataclass
-import datetime
-
-import numpy as np
 
 
 @dataclass
@@ -34,10 +30,10 @@ class Inverter:
 
 @dataclass
 class Facility:
-    panel: SolarPanel = SolarPanel()
-    battery: Battery = Battery()
-    inverter: Inverter = Inverter()
-    grid: GridConnection = GridConnection()
+    panel: SolarPanel
+    battery: Battery
+    inverter: Inverter
+    grid: GridConnection
     n_panels: int = 1
     n_batteries: int = 1
     n_inverters: int = 1

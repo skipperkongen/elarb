@@ -8,7 +8,9 @@ from elarb.models import (
     Facility,
 )
 
-def create_policy_input(facility: Facility, df: pd.DataFrame, initial_soc: float = 0.0):
+
+def create_policy_input(facility: Facility, df: pd.DataFrame,
+                        initial_soc: float = 0.0):
     return PolicyInput(
         facility=facility,
         spot_price=df.spot_price.values,
@@ -42,7 +44,7 @@ class PolicyOutput:
     x2_contrib: float
     x3_contrib: float
     x4_contrib: float
-    panel_depreciation:float
+    panel_depreciation: float
     inverter_depreciation: float
     battery_depreciation: float
     battery_soc_kWh: np.ndarray
@@ -59,8 +61,6 @@ def optimal_policy(input: PolicyInput, solver='ECOS_BB') -> PolicyOutput:
         │      ┌───────┐  │
         └─x2──▶│Battery│◀─┘
                └───────┘
-
-    TODO: initial_soc
     """
 
     n = len(input.spot_price)
@@ -86,7 +86,7 @@ def optimal_policy(input: PolicyInput, solver='ECOS_BB') -> PolicyOutput:
         * np.minimum(irradiance_kWh, peak_kWh)
     )
     panel_depreciation = cp.Parameter(nonneg=True)
-    panel_depreciation.value =  (
+    panel_depreciation.value = (
         n
         * input.facility.n_panels
         * input.facility.panel.depreciation_per_hour
@@ -95,7 +95,8 @@ def optimal_policy(input: PolicyInput, solver='ECOS_BB') -> PolicyOutput:
     # batteries
     battery_residual = 1 - input.facility.battery.conversion_loss_pct
     # cumulative sum of input - output of battery over all times t
-    battery_cap_kWh = input.facility.n_batteries * input.facility.battery.capacity_kWh
+    battery_cap_kWh = input.facility.n_batteries * \
+        input.facility.battery.capacity_kWh
 
     battery_soc_kWh_lag = cp.hstack([
         [input.initial_soc],
@@ -104,13 +105,13 @@ def optimal_policy(input: PolicyInput, solver='ECOS_BB') -> PolicyOutput:
     battery_soc_kWh = cp.cumsum(
         battery_soc_kWh_lag
     )
-    battery_depreciation = cp.sum(x3) * input.facility.battery.depreciation_per_kWh
+    battery_depreciation = cp.sum(
+        x3) * input.facility.battery.depreciation_per_kWh
 
     # battery_soc_kWh = cp.cumsum(
     #     x2 * battery_residual + x4 * battery_residual - x3
     # )
     # battery_depreciation = cp.sum(x3) * input.battery.depreciation_per_kWh
-
 
     # inverters
     # input.facility.inverter.throughput_kWh
@@ -125,7 +126,7 @@ def optimal_policy(input: PolicyInput, solver='ECOS_BB') -> PolicyOutput:
 
     # panel to grid
     yield1 = cp.Parameter(n)
-    yield1.value = input.spot_price
+    yield1.value = input.spot_price - input.net_tariff
 
     # solar to battery
     yield2 = cp.Parameter(n)
@@ -133,11 +134,11 @@ def optimal_policy(input: PolicyInput, solver='ECOS_BB') -> PolicyOutput:
 
     # battery to grid
     yield3 = cp.Parameter(n)
-    yield3.value = input.spot_price
+    yield3.value = input.spot_price - input.net_tariff
 
     # grid to battery
     yield4 = cp.Parameter(n)
-    yield4.value = -input.spot_price
+    yield4.value = -(input.spot_price + input.net_tariff)
 
     # objective
     x1_contrib = yield1@x1
@@ -179,9 +180,11 @@ def optimal_policy(input: PolicyInput, solver='ECOS_BB') -> PolicyOutput:
     # throughput constraints
     constraints += [
         # cannot exceed inverter throughput
-        x1 + x2 + x3 + x4 <= input.facility.n_inverters * input.facility.inverter.throughput_kWh,
+        x1 + x2 + x3 + x4 <= input.facility.n_inverters * \
+        input.facility.inverter.throughput_kWh,
         # cannot exceed battery throughput
-        x2 + x3 + x4 <= input.facility.n_batteries * input.facility.battery.throughput_kWh,
+        x2 + x3 + x4 <= input.facility.n_batteries * \
+        input.facility.battery.throughput_kWh,
         # cannot exceed grid throughput
         x1 + x3 + x4 <= input.facility.grid.throughput_kWh,
     ]
