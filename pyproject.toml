@@ -16,8 +16,12 @@ dependencies = [
 
 [project.optional-dependencies]
 tests = [
-  'pytest',
-  'flake8'
+    'build',
+    'twine',
+    'pytest',
+    'flake8',
+    'jupyter',
+    'seaborn',
 ]
 
 [tool.setuptools.packages.find]
