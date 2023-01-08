@@ -112,6 +112,21 @@ print('- Panel deprecation:', np.round(res.panel_depreciation, 3))
 print('- Inverter deprecation:', np.round(res.inverter_depreciation, 3))
 print('- Battery deprecation:', np.round(res.battery_depreciation, 3))
 print('- Battery soc:', res.battery_soc_kWh.round(3))
+
+"""
+Result
+- Profit: 108.738
+- PV contribution: 56.369
+- X2 contribution: 0.0
+- X3 contribution: 79.023
+- X4 contribution: -14.574
+- Panel deprecation: 2.592
+- Inverter deprecation: 1.8
+- Battery deprecation: 7.688
+- Battery soc: [0.    2.794 5.151 6.897 8.032 8.032 8.032 8.032 6.6   6.6   3.3   0.
+ 0.    0.    2.081 4.035 6.198 8.62  8.795 6.6   3.3   0.    0.    0.
+ 0.    2.881 5.849 8.294 8.785 8.8   8.8   8.8   8.8   8.8   5.5   2.2  ]
+"""
 ```
 
 ## Theory
