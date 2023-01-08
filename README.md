@@ -41,7 +41,7 @@ the example is necessarily quite verbose.
 ```python
 import numpy as np
 
-from elarb.policy import optimal_policy, PolicyInput
+from elarb.optimiser import optimise, Instance
 from elarb.models import SolarPanel, Battery, GridConnection, Inverter, Facility
 
 # solar panels: 470Wp JinKO TigerNeo N-Type 60HL4 BF, 1.57 kWh / time, costs 1565 DKK
@@ -89,7 +89,7 @@ net_tariff = np.array([
 spot_demand_kWh = np.zeros(36) + 9999
 spot_supply_kWh = np.zeros(36) + 9999
 
-policy_input = PolicyInput(
+instance = Instance(
     facility=facility,
     spot_price=spot_price,
     pv_dc_kWh_m2=pv_kwh,
@@ -99,7 +99,7 @@ policy_input = PolicyInput(
     initial_soc=0.0
 )
 
-res = optimal_policy(policy_input)
+res = optimise(instance)
 
 print()
 print('Result')

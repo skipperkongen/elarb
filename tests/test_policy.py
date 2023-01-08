@@ -5,9 +5,9 @@
 import pytest
 import numpy as np
 
-from elarb.policy import (
-    optimal_policy,
-    PolicyInput,
+from elarb.optimiser import (
+    optimise,
+    Instance,
 )
 from elarb.models import (
     SolarPanel,
@@ -40,7 +40,7 @@ def test_arbitrage_only():
         n_inverters=1,
     )
 
-    policy_input = PolicyInput(
+    instance = Instance(
         facility=facility,
         net_tariff=0.0,
         spot_price=np.array([0, 1]),
@@ -50,7 +50,7 @@ def test_arbitrage_only():
         initial_soc=0.0
     )
 
-    res = optimal_policy(policy_input)
+    res = optimise(instance)
     assert (res.x1.round(2) == np.zeros(2)).all()  # no solar
     assert (res.x2.round(2) == np.zeros(2)).all()  # no solar
     assert (res.x3.round(2) == np.array([0, 0.97])).all()  # sell later

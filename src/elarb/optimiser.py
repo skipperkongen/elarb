@@ -11,7 +11,7 @@ from elarb.models import (
 
 def create_policy_input(facility: Facility, df: pd.DataFrame,
                         initial_soc: float = 0.0):
-    return PolicyInput(
+    return Instance(
         facility=facility,
         spot_price=df.spot_price.values,
         pv_dc_kWh_m2=df.pv_dc_kWh_m2.values,
@@ -23,7 +23,7 @@ def create_policy_input(facility: Facility, df: pd.DataFrame,
 
 
 @dataclass
-class PolicyInput:
+class Instance:
     facility: Facility
     spot_price: np.ndarray
     pv_dc_kWh_m2: np.ndarray
@@ -34,7 +34,7 @@ class PolicyInput:
 
 
 @dataclass
-class PolicyOutput:
+class Solution:
     value: float
     x1: np.ndarray
     x2: np.ndarray
@@ -50,7 +50,7 @@ class PolicyOutput:
     battery_soc_kWh: np.ndarray
 
 
-def optimal_policy(input: PolicyInput, solver='ECOS_BB') -> PolicyOutput:
+def optimise(input: Instance, solver='ECOS_BB') -> Solution:
     """
                ┌───────┐
         ┌─x1──▶│ Grid  │──┐
@@ -192,7 +192,7 @@ def optimal_policy(input: PolicyInput, solver='ECOS_BB') -> PolicyOutput:
     prob = cp.Problem(objective, constraints)
     opt = prob.solve(solver=solver)
 
-    return PolicyOutput(
+    return Solution(
         value=opt,
         x1=x1.value,
         x2=x2.value,
