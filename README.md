@@ -1,6 +1,6 @@
-# El Arb
+# El Arb: on-grid facility management
 
-Profit-maximising control of inverteres in a PV + inverter + battery setup.
+Profit-maximising control of inverters in a PV + inverter + battery + grid setup.
 
 ```
            ┌───────┐       
