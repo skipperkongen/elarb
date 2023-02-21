@@ -2,6 +2,12 @@
 requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
+[tool.pytest.ini_options]
+pythonpath = [
+  "src"
+]
+
+
 [project]
 name = "elarb"
 description = "Library for x"
@@ -20,8 +26,6 @@ tests = [
     'twine',
     'pytest',
     'flake8',
-    'jupyter',
-    'seaborn',
 ]
 
 [tool.setuptools.packages.find]
